@@ -2,9 +2,11 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import pymysql
 
 
 def main():
+    pymysql.install_as_MySQLdb()
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kcspix2pix.settings')
     try:
         from django.core.management import execute_from_command_line
