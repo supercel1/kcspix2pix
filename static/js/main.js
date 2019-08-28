@@ -9,20 +9,23 @@ window.addEventListener('load', () => {
 
     function draw(x, y) {
 
+        const color = document.getElementById('color').value;
+        const width = document.getElementById('width').value;
+
         if (!isDrag) {
             return;
-        }
+        };
 
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = 'black';
+        ctx.lineWidth = width;
+        ctx.strokeStyle = color;
 
         if (lastPosition.x == null || lastPosition.y == null) {
             ctx.moveTo(x, y);
         } else {
             ctx.moveTo(lastPosition.x, lastPosition.y);
-        }
+        };
 
         ctx.lineTo(x, y);
         ctx.stroke();
@@ -48,15 +51,43 @@ window.addEventListener('load', () => {
         lastPosition.y = null;
     };
 
+    function chanegeColor() {
+        const color = document.getElementById('color').value;
+        console.log(color)
+        ctx.strokeStyle = color;
+    };
+
+    function changeWidth() {
+        const width = document.getElementById('width');
+        ctx.lineWidth = width;
+    };
+
+    function changePencil() {
+        ctx.globalCompositeOperation = 'source-over';
+    };
+
+    function changeEraser() {
+        ctx.globalCompositeOperation = 'destination-out';
+    };
+
     // マウス操作やボタンクリック時のイベント処理を定義する
     function initEventHandler() {
         const clearButton = document.querySelector('#clear-button');
+        const colorButton = document.querySelector('#color');
+        const widthButton = document.querySelector('#width');
+        const pencilButton = document.querySelector('#pencil');
+        const eraserButton = document.querySelector('#eraser');
+
         clearButton.addEventListener('click', clear);
+        colorButton.addEventListener('click', chanegeColor);
+        widthButton.addEventListener('click', changeWidth);
+        pencilButton.addEventListener('click', changePencil);
+        eraserButton.addEventListener('click', changeEraser);
         canvas.addEventListener('mousedown', dragStart);
         canvas.addEventListener('mouseup', dragEnd);
         canvas.addEventListener('mouseout', dragEnd);
         canvas.addEventListener('mousemove', (event) => {
-            console.log(event);
+            // console.log(event);
 
             draw(event.layerX, event.layerY);
         });
