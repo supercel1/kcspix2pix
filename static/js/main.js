@@ -70,6 +70,12 @@ window.addEventListener('load', () => {
         ctx.globalCompositeOperation = 'destination-out';
     };
 
+    function imageSave() {
+        const dataURI = canvas.toDataURL('image/jpeg');
+        const image = document.getElementById('output');
+        image.src = dataURI;
+    };
+
     // マウス操作やボタンクリック時のイベント処理を定義する
     function initEventHandler() {
         const clearButton = document.querySelector('#clear-button');
@@ -77,12 +83,14 @@ window.addEventListener('load', () => {
         const widthButton = document.querySelector('#width');
         const pencilButton = document.querySelector('#pencil');
         const eraserButton = document.querySelector('#eraser');
+        const saveButton = document.querySelector('#save');
 
         clearButton.addEventListener('click', clear);
         colorButton.addEventListener('click', chanegeColor);
         widthButton.addEventListener('click', changeWidth);
         pencilButton.addEventListener('click', changePencil);
         eraserButton.addEventListener('click', changeEraser);
+        saveButton.addEventListener('click', imageSave);
         canvas.addEventListener('mousedown', dragStart);
         canvas.addEventListener('mouseup', dragEnd);
         canvas.addEventListener('mouseout', dragEnd);

@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     url('templates/', views.hello_template, name='hello_template'),
+    url('image/', views.predict, name='predict'),
 ]
