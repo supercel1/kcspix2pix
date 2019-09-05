@@ -6,4 +6,5 @@ def hello_template(request):
     return render(request, 'index.html')
 
 def predict(request):
-    pass
+    print(request)
+    return render(request, 'predict.html')

@@ -1,18 +1,8 @@
-{% load static %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='slim' %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width", initial-scale=1.0>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>kcs</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <script src="https://kit.fontawesome.com/779c2b0f03.js"></script>
-</head>
-<body>
+
+{% extends "base.html" %}
+
+{% block title %}kcs{% endblock %}
+{% block content %}
     <nav class="navbar navbar-dark bg-dark">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -27,17 +17,18 @@
     <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12">
             <div class="card-header">お絵描きしてください</div>
-            <canvas id="canvas" width="400px" height="400px" style="border: 1px solid #000000"></canvas>
+            <div class="row justify-content-left">
+                <canvas id="canvas" width="400px" height="400px" style="border: 1px solid #000000"></canvas>
+                <img id="output" src="">
+            </div>
             <div>
                 <button id="clear-button" class="btn btn-inline">clear</button>
                 <input id="color" class="btn btn-inline" type="color">
                 <label>太さ<input id="width" type="number" min="1" max="30"></label>
                 <button id="pencil" class="btn btn-inline"><i class="fas fa-pen"></i></button>
                 <button id="eraser" class="btn btn-inline"><i class="fas fa-eraser"></i></button>
-                <button id="save" class="btn btn-inline">画像を保存</button>
+                <button id="predict" class="btn btn-inline">予測する</button>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-</body>
-</html>
+{% endblock %}
