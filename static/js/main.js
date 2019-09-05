@@ -71,7 +71,7 @@ window.addEventListener('load', () => {
     };
 
     function imageSave() {
-        const dataURI = canvas.toDataURL('image/jpeg');
+        const dataURI = canvas.toDataURL();
         const image = document.getElementById('output');
         image.src = dataURI;
     };

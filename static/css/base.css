@@ -1,0 +1,25 @@
+#pencil:active {
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);/*下に動く*/
+    border-bottom: none;/*線を消す*/
+}
+
+#pencil {
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #668ad8;
+    color: #FFF;
+    border-bottom: solid 4px #627295;
+    border-radius: 3px;
+}
+
+#eraser {
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    background: #668ad8;
+    color: #FFF;
+    border-bottom: solid 4px #627295;
+    border-radius: 3px;
+}

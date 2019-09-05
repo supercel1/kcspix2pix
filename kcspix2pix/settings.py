@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'oekaki',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
