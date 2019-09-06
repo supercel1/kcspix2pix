@@ -78,9 +78,10 @@ window.addEventListener('load', () => {
     };
 
     btn.on('click', () => {
+        btn.prop('disabled', true);
         btn.html('推測中');
         $.ajax({
-            'url': '',
+            'url': 'image',
             'type': 'POST',
             'data': JSON.stringify({
                 'img': toImg()
@@ -89,6 +90,7 @@ window.addEventListener('load', () => {
             'dataType': 'json',
             'success': ((data) => {
                 console.log(data);
+                btn.prop('disabled', false);
                 btn.html('予測する');
             })
         });
