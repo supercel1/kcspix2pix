@@ -74,6 +74,7 @@ window.addEventListener('load', () => {
 
     function toImg() {
         let dataURI = canvas.toDataURL('image/jpeg');
+        dataURI = dataURI.replace(/^data:image\/jpeg;base64,/, '');
         return dataURI;
     };
 
@@ -81,19 +82,49 @@ window.addEventListener('load', () => {
         btn.prop('disabled', true);
         btn.html('推測中');
         $.ajax({
-            'url': 'image',
-            'type': 'POST',
-            'data': JSON.stringify({
+            url: 'http://localhost:8000/oekaki/image',
+            type: 'POST',
+            data: JSON.stringify({
                 'img': toImg()
             }),
-            'contentType': 'application/json',
-            'dataType': 'json',
-            'success': ((data) => {
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+        })
+            .done((data, textStatus, jqxHR) => {
                 console.log(data);
+            })
+            .fail((jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            })
+            .always(() => {
                 btn.prop('disabled', false);
                 btn.html('予測する');
+            });
+    });
+
+    $("#id_image").change(function () {
+        let formData = new FormData();
+        formData.append("image", $(this)[0].files[0]);
+
+        $.ajax({
+            type: 'post',
+            url: 'image',
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            data: formData
+        })
+            .done((data) => {
+                console.log(data);
             })
-        });
+            .fail((jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            });
     });
 
     // マウス操作やボタンクリック時のイベント処理を定義する
