@@ -12,15 +12,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from .local_settings import *
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$j+17rqkw8&!1vakq26-)+0kz)7f!@o63h#eisbxu#+x87jcbz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -72,22 +71,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'kcspix2pix.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'images',
-        'USER': 'root',
-        'PASSWORD': 'supercel1mysql',
-        'HOST': '',
-        'PORT': '',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
