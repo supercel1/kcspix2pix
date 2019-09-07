@@ -82,7 +82,7 @@ window.addEventListener('load', () => {
         btn.prop('disabled', true);
         btn.html('推測中');
         $.ajax({
-            url: 'http://localhost:8000/oekaki/image',
+            url: 'image',
             type: 'POST',
             data: JSON.stringify({
                 'img': toImg()
