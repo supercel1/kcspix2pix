@@ -10,15 +10,15 @@ from .models import Images, Files
 # Create your views here.
 
 def index(request):
-    print(request)
     return render(request, 'index.html')
 
 def predict_image(request):
     model = CycleGAN()
     model.log_dir = 'logs'
     model.load('epoch195')
-
-    print(request.POST)
+    
+    img_byte = request.body
+    img_decoded = img_byte.decode(encoding='utf-8')
 
     context = {'status': '200 OK'}
     return JsonResponse(context)

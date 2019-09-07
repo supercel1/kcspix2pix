@@ -14,7 +14,7 @@ window.addEventListener('load', () => {
 
         if (!isDrag) {
             return;
-        };
+        }
 
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
@@ -25,23 +25,23 @@ window.addEventListener('load', () => {
             ctx.moveTo(x, y);
         } else {
             ctx.moveTo(lastPosition.x, lastPosition.y);
-        };
+        }
 
         ctx.lineTo(x, y);
         ctx.stroke();
 
         lastPosition.x = x;
         lastPosition.y = y;
-    };
+    }
 
     function clear() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    };
+    }
 
     function dragStart(event) {
         ctx.beginPath();
         isDrag = true;
-    };
+    }
 
     function dragEnd(event) {
         ctx.closePath();
@@ -49,26 +49,26 @@ window.addEventListener('load', () => {
 
         lastPosition.x = null;
         lastPosition.y = null;
-    };
+    }
 
     function chanegeColor() {
         const color = document.getElementById('color').value;
-        console.log(color)
+        console.log(color);
         ctx.strokeStyle = color;
-    };
+    }
 
     function changeWidth() {
-        const width = document.getElementById('width');
+        let width = document.getElementById('width');
         ctx.lineWidth = width;
-    };
+    }
 
     function changePencil() {
         ctx.globalCompositeOperation = 'source-over';
-    };
+    }
 
     function changeEraser() {
         ctx.globalCompositeOperation = 'destination-out';
-    };
+    }
 
     const btn = $('#predict');
 
@@ -76,17 +76,20 @@ window.addEventListener('load', () => {
         let dataURI = canvas.toDataURL('image/jpeg');
         dataURI = dataURI.replace(/^data:image\/jpeg;base64,/, '');
         return dataURI;
-    };
+    }
 
     btn.on('click', () => {
         btn.prop('disabled', true);
         btn.html('推測中');
+
+        let dataURI = canvas.toDataURL('image/jpeg');
+        dataURI = dataURI.replace(/^data:image\/jpeg;base64,/, '');
+
+        let postData = dataURI; 
         $.ajax({
             url: 'image',
             type: 'POST',
-            data: JSON.stringify({
-                'img': toImg()
-            }),
+            data: postData,
             contentType: false,
             processData: false,
             dataType: 'json',
@@ -148,7 +151,7 @@ window.addEventListener('load', () => {
 
             draw(event.layerX, event.layerY);
         });
-    };
+    }
 
     initEventHandler();
 });
