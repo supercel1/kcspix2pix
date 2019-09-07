@@ -4,20 +4,32 @@ from django.http import JsonResponse, HttpResponse
 import base64
 import json
 
-from . import models, networks
+from .networks import CycleGAN
+from .models import Images, Files
 
 # Create your views here.
 
-def hello_template(request):
+def index(request):
     print(request)
     return render(request, 'index.html')
 
-def predict(request):
-    model = networks.CycleGAN()
-    model.log_dir = '../logs'
+def predict_image(request):
+    model = CycleGAN()
+    model.log_dir = 'logs'
     model.load('epoch195')
 
-    img_base64 = request.POST.get('img')
+    print(request.POST)
 
-    context = {'img': img_base64}
+    context = {'status': '200 OK'}
+    return JsonResponse(context)
+
+def predict_file(request):
+    model = CycleGAN()
+    model.log_dir = 'logs'
+    model.load('epoch195')
+
+    form = Files(request.POST, request.FILES)
+    form.save()
+
+    context = {'status': '200 OK'}
     return JsonResponse(context)

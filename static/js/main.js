@@ -111,7 +111,7 @@ window.addEventListener('load', () => {
 
         $.ajax({
             type: 'post',
-            url: 'image',
+            url: 'file',
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
