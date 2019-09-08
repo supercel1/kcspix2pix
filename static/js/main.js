@@ -82,8 +82,8 @@ window.addEventListener('load', () => {
         btn.prop('disabled', true);
         btn.html('推測中');
 
-        let dataURI = canvas.toDataURL('image/jpeg');
-        dataURI = dataURI.replace(/^data:image\/jpeg;base64,/, '');
+        let dataURI = canvas.toDataURL('image/png');
+        dataURI = dataURI.replace(/^data:image\/png;base64,/, '');
 
         let postData = dataURI; 
         $.ajax({
