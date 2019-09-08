@@ -96,6 +96,10 @@ window.addEventListener('load', () => {
         })
             .done((data, textStatus, jqxHR) => {
                 console.log(data);
+                let dataURI = data['image_path'];
+                const img = document.getElementById('output');
+
+                img.src = 'http://localhost:8000/' +  dataURI;
             })
             .fail((jqXHR, textStatus, errorThrown) => {
                 console.log(jqXHR);
