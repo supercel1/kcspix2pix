@@ -9,7 +9,7 @@ class ImageTransform():
 
     def __init__(self, resize, mean, std):
         self.transform = transforms.Compose([
-            transforms.Resize(resize),
+            transforms.Resize((resize, resize), Image.BICUBIC),
             transforms.ToTensor(),
             transforms.Normalize(mean, std)
         ])
@@ -18,7 +18,7 @@ class ImageTransform():
         return self.transform(img)
 
 def make_input(img_path):
-    img = Image.open(img_path)
+    img = Image.open(img_path).convert('RGB')
 
     transform = ImageTransform(resize, mean, std)
     img_transformed = transform(img)
