@@ -96,7 +96,7 @@ window.addEventListener('load', () => {
         })
             .done((data, textStatus, jqxHR) => {
                 console.log(data);
-                let dataURI = data['image_path'];
+                let dataURI = data['fake_image_path'];
                 const img = document.getElementById('output');
 
                 img.src = 'http://localhost:8000/' +  dataURI;

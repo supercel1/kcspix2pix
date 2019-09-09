@@ -12,3 +12,7 @@ class Files(models.Model):
         verbose_name='ファイル',
     )
     created_at = models.DateTimeField(auto_now=True)
+
+class FakeImage(models.Model):
+    fake_image = models.ImageField(upload_to='pix2pix/fake/')
+    created_at = models.DateTimeField(auto_now=True)
