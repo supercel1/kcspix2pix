@@ -6,11 +6,8 @@ class Images(models.Model):
     image = models.ImageField(upload_to='pix2pix/')
     created_at = models.DateTimeField(auto_now=True)
 
-class Files(models.Model):
-    files = models.FileField(
-        upload_to='cyclegan/',
-        verbose_name='ファイル',
-    )
+class File(models.Model):
+    files = models.ImageField(upload_to='cyclegan/')
     created_at = models.DateTimeField(auto_now=True)
 
 class FakeImage(models.Model):

@@ -1,3 +1,6 @@
 local_settings.py
 media
 .idea
+db.sqlite3
+logs
+/__pycache__/

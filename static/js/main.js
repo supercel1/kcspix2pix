@@ -72,12 +72,6 @@ window.addEventListener('load', () => {
 
     const btn = $('#predict');
 
-    function toImg() {
-        let dataURI = canvas.toDataURL('image/jpeg');
-        dataURI = dataURI.replace(/^data:image\/jpeg;base64,/, '');
-        return dataURI;
-    }
-
     btn.on('click', () => {
         btn.prop('disabled', true);
         btn.html('推測中');
@@ -112,7 +106,9 @@ window.addEventListener('load', () => {
             });
     });
 
-    $("#id_image").change(function () {
+    const form = $("#form");
+
+    form.change(function (event) {
         let formData = new FormData();
         formData.append("image", $(this)[0].files[0]);
 

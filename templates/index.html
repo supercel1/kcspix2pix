@@ -4,21 +4,30 @@
 {% block title %}kcs{% endblock %}
 {% block content %}
 <nav class="navbar navbar-dark bg-dark block">
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a href="#" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">予測モデル</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">CycleGAN</a>
-                <a class="dropdown-item" href="#">pix2pix</a>
-            </div>
-        </li>
-    </ul>
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+            aria-controls="collapseExample">
+            変換ドメイン
+        </a>
+    </p>
 </nav>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        <ul>
+            <li><a href="">ポケモン画像変換</a></li>
+            <li><a href="">MB</a></li>
+        </ul>
+    </div>
+</div>
+<div class="card-header">お絵描きしてください</div>
 <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-        <div class="card-header">お絵描きしてください</div>
-        <div class="row justify-content-left">
+        <div class="row justify-content-around">
             <canvas id="canvas" width="256px" height="256px" style="border: 1px solid #000000"></canvas>
+            <div class="column">
+                <i class="fas fa-long-arrow-alt-right"></i>
+                <button id="predict" class="btn btn-inline btn-primary">予測する</button>
+            </div>
             <img id="output" src="" width="256px" height="256px">
         </div>
         <div>
@@ -27,8 +36,7 @@
             <label>太さ<input id="width" type="number" min="1" max="30"></label>
             <button id="pencil" class="btn btn-inline"><i class="fas fa-pen"></i></button>
             <button id="eraser" class="btn btn-inline"><i class="fas fa-eraser"></i></button>
-            <button id="predict" class="btn btn-inline btn-primary">予測する</button>
-            <input type="file" name="image_file" accept="image/*" id="id_image">
+            <input type="file" class="form-control-file" id="form">
         </div>
     </div>
 </div>
