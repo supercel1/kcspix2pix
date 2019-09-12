@@ -1,6 +1,8 @@
 window.addEventListener('load', () => {
     const canvas = document.querySelector('#canvas');
     const ctx = canvas.getContext('2d');
+    const uri = $(location).attr('protocol')+ '//' + $(location).attr('host') + '/';
+    console.log(uri);
 
     const lastPosition = { x: null, y: null };
 
@@ -109,7 +111,7 @@ window.addEventListener('load', () => {
             .done((data) => {
                 console.log(data);
                 const image = document.getElementById('output');
-                image.src = 'http://localhost:8000/' + data['file_path'];
+                image.src = uri + data['file_path'];
                 console.log(data['file_path']);
             })
             .fail((textStatus) => {
@@ -147,7 +149,7 @@ window.addEventListener('load', () => {
                 let dataURI = data['fake_image_path'];
                 const img = document.getElementById('output');
 
-                img.src = 'http://localhost:8000/' +  dataURI;
+                img.src = uri +  dataURI;
             })
             .fail((jqXHR, textStatus, errorThrown) => {
                 console.log(jqXHR);
