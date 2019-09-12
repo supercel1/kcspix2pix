@@ -111,6 +111,23 @@ window.addEventListener('load', () => {
     $('input[type=file]').change(() => {
         const file = $('input[type=file]').prop('files')[0];
 
+        let fd = new FormData();
+        fd.append($('input[type=file]').attr('name'), file);
+
+        $.ajax({
+            url: 'file',
+            type: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false
+        })
+            .done((data) => {
+                console.log(data);
+            })
+            .fail((textStatus) => {
+                console.log(textStatus);
+            });
+
         const reader = new FileReader();
         reader.onload = () => {
             uploadImgSrc = reader.result;

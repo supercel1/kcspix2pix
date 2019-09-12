@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 
 from .networks import CycleGAN
 from .models import Images, File, FakeImage
+from .forms import FileForm
 from .preprocessing import make_input
 
 # Create your views here.
@@ -61,7 +62,16 @@ def predict_file(request):
     model.log_dir = 'logs'
     model.load('epoch195')
 
-    print(request.POST)
-
-    context = {'form': 'aaa' }
-    return JsonResponse(context)
+    if request.method == 'POST':
+        print(request.POST, request.FILES)
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            context = {'form': form}
+        else:
+            context = {'message': '無効なフォームです'}
+        return JsonResponse(context)
+    else:
+        form = FileForm()
+        context = {'form': form}
+        return JsonResponse(context)
