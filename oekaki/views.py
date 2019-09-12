@@ -66,10 +66,29 @@ def predict_file(request):
     model.load('epoch195')
 
     if request.method == 'POST':
-        image_name = str(uuid.uuid4()) + '.jpg'
-        path = default_storage.save(image_name, request.FILES['docfile'])
+        img_name = str(uuid.uuid4()) + '.jpg'
+        path = default_storage.save(img_name, request.FILES['docfile'])
         tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-        context = { 'file_path': 'media/' + path }
+
+        img_input = make_input('media/' + path, img_name)
+        fake_Y = model.G_X(img_input)
+
+        fake_img_np = fake_Y[0].detach().numpy()
+        fake_img_np = 0.5 * (fake_img_np + 1)
+        fake_img_np = np.transpose(fake_img_np, (1, 2, 0))
+
+        fake_img_pil = Image.fromarray((fake_img_np * 255).astype(np.uint8))
+
+        fake_img_byte_array = io.BytesIO()
+        fake_img_pil.save(fake_img_byte_array, format='JPEG')
+        fake_img_data = fake_img_byte_array.getvalue()
+        fake_img_name = 'fake_' + img_name
+        fake_image = ContentFile(fake_img_data, fake_img_name)
+
+        FakeImage.objects.create(fake_image=fake_image)
+        fake_image_path = 'media/pix2pix/fake/' + fake_img_name
+        
+        context = { 'file_path': fake_image_path }
         return JsonResponse(context)
     else:
         context = {'state': '400'}
