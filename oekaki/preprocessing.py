@@ -19,7 +19,6 @@ class ImageTransform():
 
 def make_input(img_path, img_name):
     img = to_RGB(Image.open(img_path), img_name)
-    print(img)
 
     transform = ImageTransform(resize, mean, std)
     img_transformed = transform(img)
