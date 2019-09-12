@@ -2,7 +2,6 @@ window.addEventListener('load', () => {
     const canvas = document.querySelector('#canvas');
     const ctx = canvas.getContext('2d');
     const uri = $(location).attr('protocol')+ '//' + $(location).attr('host') + '/';
-    console.log(uri);
 
     const lastPosition = { x: null, y: null };
 
@@ -110,9 +109,28 @@ window.addEventListener('load', () => {
         })
             .done((data) => {
                 console.log(data);
-                const image = document.getElementById('output');
-                image.src = uri + data['file_path'];
-                console.log(data['file_path']);
+                const cv = document.getElementById('out');
+                const context = cv.getContext('2d');
+
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                let img = new Image();
+                img.src = uri + data['file_path'];
+                img.onload = () => {
+                    let w, h;
+                    const maxSize = 256;
+                    if (img.width > img.height) {
+                        w = maxSize;
+                        h = Math.floor(maxSize * img.height / img.width);
+                    } else {
+                        w = Math.floor(maxSize * img.width / img.height);
+                        h = maxSize;
+                    }
+                    const start = [(maxSize - w) / 2, (maxSize - h) / 2];
+                    context.fillRect(0, 0, 286, 286);
+
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.drawImage(img, start[0], start[1], w, h);
+                }
             })
             .fail((textStatus) => {
                 console.log(textStatus);
