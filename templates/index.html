@@ -32,7 +32,18 @@
                 <button id="pencil" class="btn btn-inline"><i class="fas fa-pen"></i></button>
                 <button id="eraser" class="btn btn-inline"><i class="fas fa-eraser"></i></button>
                 <button id="predict" class="btn btn-inline btn-primary">予測する</button>
-                <input type="file" class="form-control-file" id="form">
+                <form id="form" class="form" method="POST" enctype="multipart/form-data" action="file">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly="">
+                        <label class="input-group-btn">
+                            {{ form.as_p }}
+                            <span class="btn btn-success">
+                                Choose File<input type="file" name="file" style="display:none;" id="input-file" accept="image/*">
+                            </span>
+                        </label>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

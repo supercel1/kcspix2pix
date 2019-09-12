@@ -70,6 +70,55 @@ window.addEventListener('load', () => {
         ctx.globalCompositeOperation = 'destination-out';
     }
 
+    function loadLocalImage(e) {
+        let fileData = e.target.files[0];
+        
+        if (!fileData.type.match('image.*')) {
+            alert('画像を選択してください');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            uploadImgSrc = reader.result;
+            canvasDraw();
+        }
+        reader.readAsDataURL(fileData);
+    }
+
+    function canvasDraw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let img = new Image();
+        img.src = uploadImgSrc;
+        img.onload = () => {
+            let w, h;
+            const maxSize = 256;
+            if (img.width > img.height) {
+                w = maxSize;
+                h = Math.floor(maxSize * img.height / img.width);
+            } else {
+                w = Math.floor(maxSize * img.width / img.height);
+                h = maxSize;
+            }
+            const start = [(maxSize - w) / 2, (maxSize - h) / 2];
+            ctx.fillRect(0, 0, 286, 286);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, start[0], start[1], w, h);
+        }
+    }
+
+    $('input[type=file]').change(() => {
+        const file = $('input[type=file]').prop('files')[0];
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            uploadImgSrc = reader.result;
+            canvasDraw();
+        }
+        reader.readAsDataURL(file);
+    })
+
     const btn = $('#predict');
 
     btn.on('click', () => {
@@ -103,30 +152,6 @@ window.addEventListener('load', () => {
             .always(() => {
                 btn.prop('disabled', false);
                 btn.html('予測する');
-            });
-    });
-
-    const form = $("#form");
-
-    form.change(function (event) {
-        let formData = new FormData();
-        formData.append("image", $(this)[0].files[0]);
-
-        $.ajax({
-            type: 'post',
-            url: 'file',
-            enctype: 'multipart/form-data',
-            processData: false,
-            contentType: false,
-            data: formData
-        })
-            .done((data) => {
-                console.log(data);
-            })
-            .fail((jqXHR, textStatus, errorThrown) => {
-                console.log(jqXHR);
-                console.log(textStatus);
-                console.log(errorThrown);
             });
     });
 
