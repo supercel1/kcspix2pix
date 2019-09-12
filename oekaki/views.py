@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.conf import settings
 
+import os
 import uuid
 import base64
 import json
@@ -63,15 +66,11 @@ def predict_file(request):
     model.load('epoch195')
 
     if request.method == 'POST':
-        print(request.POST, request.FILES)
-        form = FileForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            context = {'form': form}
-        else:
-            context = {'message': '無効なフォームです'}
+        image_name = str(uuid.uuid4()) + '.jpg'
+        path = default_storage.save(image_name, request.FILES['docfile'])
+        tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+        context = { 'file_path': 'media/' + path }
         return JsonResponse(context)
     else:
-        form = FileForm()
-        context = {'form': form}
+        context = {'state': '400'}
         return JsonResponse(context)

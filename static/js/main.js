@@ -70,22 +70,6 @@ window.addEventListener('load', () => {
         ctx.globalCompositeOperation = 'destination-out';
     }
 
-    function loadLocalImage(e) {
-        let fileData = e.target.files[0];
-        
-        if (!fileData.type.match('image.*')) {
-            alert('画像を選択してください');
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            uploadImgSrc = reader.result;
-            canvasDraw();
-        }
-        reader.readAsDataURL(fileData);
-    }
-
     function canvasDraw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         let img = new Image();
@@ -119,10 +103,14 @@ window.addEventListener('load', () => {
             type: 'POST',
             data: fd,
             processData: false,
-            contentType: false
+            contentType: false,
+            enctype: 'multipart/form-data'
         })
             .done((data) => {
                 console.log(data);
+                const image = document.getElementById('output');
+                image.src = 'http://localhost:8000/' + data['file_path'];
+                console.log(data['file_path']);
             })
             .fail((textStatus) => {
                 console.log(textStatus);
@@ -134,7 +122,7 @@ window.addEventListener('load', () => {
             canvasDraw();
         }
         reader.readAsDataURL(file);
-    })
+    });
 
     const btn = $('#predict');
 
