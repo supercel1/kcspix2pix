@@ -11,11 +11,9 @@ import json
 import numpy as np
 from PIL import Image
 import io
-import matplotlib.pyplot as plt
 
 from .networks import CycleGAN
 from .models import Images, File, FakeImage
-from .forms import FileForm
 from .preprocessing import make_input
 
 # Create your views here.
@@ -71,9 +69,9 @@ def predict_file(request):
         tmp_file = os.path.join(settings.MEDIA_ROOT, path)
 
         img_input = make_input('media/' + path, img_name)
-        fake_Y = model.G_X(img_input)
+        fake_X = model.G_Y(img_input)
 
-        fake_img_np = fake_Y[0].detach().numpy()
+        fake_img_np = fake_X[0].detach().numpy()
         fake_img_np = 0.5 * (fake_img_np + 1)
         fake_img_np = np.transpose(fake_img_np, (1, 2, 0))
 

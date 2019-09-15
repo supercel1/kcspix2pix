@@ -17,13 +17,32 @@ class ImageTransform():
     def __call__(self, img):
         return self.transform(img)
 
-def make_input(img_path, img_name):
-    img = to_RGB(Image.open(img_path), img_name)
+class ImageTransform_L():
 
-    transform = ImageTransform(resize, mean, std)
-    img_transformed = transform(img)
-    img_input = img_transformed.unsqueeze_(0) # ミニバッチ分の次元を追加
-    return img_input
+    def __init__(self, resize, mean, std):
+        self.transform = transforms.Compose([
+            transforms.Resize((resize, resize), Image.BICUBIC),
+            transforms.Grayscale(num_output_channels=3),
+            transforms.ToTensor(),
+            transforms.Normalize(mean, std)
+        ])
+
+    def __call__(self, img):
+        return self.transform(img)
+
+def make_input(img_path, img_name):
+    img = Image.open(img_path)
+    if img.mode == 'L':
+        transforms_L = ImageTransform_L(resize, mean, std)
+        img_transformed = transforms_L(img)
+        img_input = img_transformed.unsqueeze_(0)
+        return img_input
+    else:
+        img = to_RGB(Image.open(img_path), img_name)
+        transform = ImageTransform(resize, mean, std)
+        img_transformed = transform(img)
+        img_input = img_transformed.unsqueeze_(0) # ミニバッチ分の次元を追加
+        return img_input
 
 def to_RGB(img, img_name):
     if img.mode == 'RGB':

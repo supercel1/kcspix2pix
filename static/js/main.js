@@ -95,6 +95,10 @@ window.addEventListener('load', () => {
 
     $('input[type=file]').change(() => {
         const file = $('input[type=file]').prop('files')[0];
+        if (file.type !== 'image/jpeg') {
+            console.log('無効な拡張子です');
+            return;
+        }
 
         let fd = new FormData();
         fd.append($('input[type=file]').attr('name'), file);
@@ -151,9 +155,8 @@ window.addEventListener('load', () => {
         btn.html('推測中');
 
         let dataURI = canvas.toDataURL('image/png');
-        dataURI = dataURI.replace(/^data:image\/png;base64,/, '');
+        const postData = dataURI.replace(/^data:image\/png;base64,/, '');
 
-        let postData = dataURI; 
         $.ajax({
             url: 'image',
             type: 'POST',
