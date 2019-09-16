@@ -1,5 +1,7 @@
 from PIL import Image
 
+import numpy as np
+
 import torchvision.transforms as transforms
 
 resize = 256
@@ -55,3 +57,11 @@ def to_RGB(img, img_name):
     file_name = img_name + '.jpg'
     background.save(file_name, 'JPEG', quality=80)
     return Image.open(file_name)
+
+def to_PIL(img):
+    img_np = img[0].detach().numpy()
+    img_np = 0.5 * (img_np + 1)
+    img_np = np.transpose(img_np, (1, 2, 0))
+
+    img_pil = Image.fromarray((img_np * 255).astype(np.uint8))
+    return img_pil

@@ -14,7 +14,7 @@ import io
 
 from .networks import CycleGAN
 from .models import Images, File, FakeImage
-from .preprocessing import make_input
+from .preprocessing import make_input, to_PIL
 
 # Create your views here.
 
@@ -38,11 +38,7 @@ def predict_image(request):
     img_input = make_input(image_path, img_name)
     fake_Y = model.G_X(img_input)
 
-    fake_img_np = fake_Y[0].detach().numpy()
-    fake_img_np = 0.5 * (fake_img_np + 1)
-    fake_img_np = np.transpose(fake_img_np, (1, 2, 0))
-
-    fake_img_pil = Image.fromarray((fake_img_np * 255).astype(np.uint8))
+    fake_img_pil = to_PIL(fake_Y)
 
     fake_img_byte_array = io.BytesIO()
     fake_img_pil.save(fake_img_byte_array, format='JPEG')
@@ -71,11 +67,7 @@ def predict_file(request):
         img_input = make_input('media/' + path, img_name)
         fake_X = model.G_Y(img_input)
 
-        fake_img_np = fake_X[0].detach().numpy()
-        fake_img_np = 0.5 * (fake_img_np + 1)
-        fake_img_np = np.transpose(fake_img_np, (1, 2, 0))
-
-        fake_img_pil = Image.fromarray((fake_img_np * 255).astype(np.uint8))
+        fake_img_pil = to_PIL(fake_X)
 
         fake_img_byte_array = io.BytesIO()
         fake_img_pil.save(fake_img_byte_array, format='JPEG')
