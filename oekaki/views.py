@@ -33,7 +33,7 @@ def predict_image(request):
     image = ContentFile(img_data, img_name + '.png')
 
     Images.objects.create(image=image)
-    image_path = 'media/pix2pix/' + img_name + '.png'
+    image_path = 'media/real/' + img_name + '.png'
 
     img_input = make_input(image_path, img_name)
     fake_Y = model.G_X(img_input)
@@ -47,9 +47,11 @@ def predict_image(request):
     fake_image = ContentFile(fake_img_data, fake_img_name)
 
     FakeImage.objects.create(fake_image=fake_image)
-    fake_image_path = 'media/pix2pix/fake/' + fake_img_name
+    fake_image_path = 'media/fake/' + fake_img_name
 
-    fake_ = Image.open(fake_image_path)
+    delete_path = os.path.join(settings.BASE_DIR, img_name + '.jpg')
+    print(delete_path)
+    os.remove(delete_path)
 
     context = {'fake_image_path': fake_image_path }
     return JsonResponse(context)
@@ -76,7 +78,7 @@ def predict_file(request):
         fake_image = ContentFile(fake_img_data, fake_img_name)
 
         FakeImage.objects.create(fake_image=fake_image)
-        fake_image_path = 'media/pix2pix/fake/' + fake_img_name
+        fake_image_path = 'media/fake/' + fake_img_name
         
         context = { 'file_path': fake_image_path }
         return JsonResponse(context)
