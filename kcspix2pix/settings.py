@@ -12,11 +12,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+DEBUG = False
+
+
 try:
     from .local_settings import *
 except ImportError:
-    import os
-    SECRET_KEY = os.environ["SECRET_KEY"]
+    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +28,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -124,4 +125,6 @@ MEDIA_URL = '/media/'
 
 if not DEBUG:
     import django_heroku
+    import os
+    SECRET_KEY = os.environ["SECRET_KEY"]
     django_heroku.settings(locals())
