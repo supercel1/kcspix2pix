@@ -1,1 +1,1 @@
-web: gunicorn kcspix2pix.wsgi --log-file -
+web: gunicorn kcspix2pix.wsgi
