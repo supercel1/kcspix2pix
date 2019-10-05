@@ -3,4 +3,5 @@ media
 .idea
 db.sqlite3
 logs
+*.pth
 /__pycache__/
