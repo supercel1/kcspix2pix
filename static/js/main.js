@@ -113,28 +113,10 @@ window.addEventListener('load', () => {
         })
             .done((data) => {
                 console.log(data);
-                const cv = document.getElementById('out');
-                const context = cv.getContext('2d');
+                let dataURI = data['file_path'];
+                const img = document.getElementById('output');
 
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                let img = new Image();
-                img.src = uri + data['file_path'];
-                img.onload = () => {
-                    let w, h;
-                    const maxSize = 256;
-                    if (img.width > img.height) {
-                        w = maxSize;
-                        h = Math.floor(maxSize * img.height / img.width);
-                    } else {
-                        w = Math.floor(maxSize * img.width / img.height);
-                        h = maxSize;
-                    }
-                    const start = [(maxSize - w) / 2, (maxSize - h) / 2];
-                    context.fillRect(0, 0, 286, 286);
-
-                    context.clearRect(0, 0, canvas.width, canvas.height);
-                    context.drawImage(img, start[0], start[1], w, h);
-                }
+                img.src = uri + dataURI;
             })
             .fail((textStatus) => {
                 console.log(textStatus);
@@ -170,7 +152,7 @@ window.addEventListener('load', () => {
                 let dataURI = data['fake_image_path'];
                 const img = document.getElementById('output');
 
-                img.src = uri +  dataURI;
+                img.src = uri + dataURI;
             })
             .fail((jqXHR, textStatus, errorThrown) => {
                 console.log(jqXHR);
