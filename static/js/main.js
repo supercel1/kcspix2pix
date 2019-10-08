@@ -95,7 +95,6 @@ window.addEventListener('load', () => {
 
     $('input[type=file]').change(() => {
         const file = $('input[type=file]').prop('files')[0];
-        const
         if (file.type !== 'image/jpeg') {
             console.log('無効な拡張子です');
             return;
